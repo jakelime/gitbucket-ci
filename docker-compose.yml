@@ -1,0 +1,77 @@
+services:
+
+  nginx:
+    restart: unless-stopped
+    container_name: ${PROJECT_NAME}_nginx
+    build:
+      context: ./src-nginx
+      args:
+        url_docker: ${url_docker_index}
+    environment:
+      - NGINX_ENVSUBST_TEMPLATE_SUFFIX=.template
+      - NGINX_ENVSUBST_TEMPLATE_DIR=/etc/nginx/templates
+      - NGINX_ENVSUBST_OUTPUT_DIR=/etc/nginx/conf.d
+      - SHARED_DATA_DIR=${SHARED_DATA_DIR}
+      - NGINX_LOG_FOLDER=${SHARED_LOGS_DIR}/nginx/
+      - NGINX_STATIC_FOLDER=${SHARED_DATA_DIR}/www/static/
+      - NGINX_MEDIA_FOLDER=${SHARED_DATA_DIR}/www/media/
+      - NGINX_PORT_HTTP=${NGINX_PORT_HTTP}
+      - NGINX_PORT_HTTPS=${NGINX_PORT_HTTPS}
+      - GITBUCKET_PORT=${GITBUCKET_PORT}
+    ports:
+      - "${NGINX_PORT_HTTP}:${NGINX_PORT_HTTP}"
+      - "${NGINX_PORT_HTTPS}:${NGINX_PORT_HTTPS}"
+    volumes:
+      - ./src-nginx/templates:/etc/nginx/templates
+      - datashare:/datashare
+      - appcache_nginx:/var/cache/nginx
+    networks:
+      - appnet
+
+  pgdb:
+    container_name: ${PROJECT_NAME}_pgdb
+    restart: unless-stopped
+    env_file:
+      - ./src-pgdb/.env.docker
+    build:
+      context: ./src-pgdb
+      args:
+        url_docker: ${url_docker_index}
+    ports:
+      - "$PGDB_PORT:$PGDB_PORT"
+    command:
+      - postgres
+      - "-p"
+      - ${PGDB_PORT}
+    volumes:
+      - dbdata_pgdb:/var/lib/postgresql/data
+    networks:
+      - appnet
+
+  gitbucket:
+    restart: unless-stopped
+    environment:
+      - GITBUCKET_PREFIX=gitbucket/
+      - GITBUCKET_DB_URL=jdbc:postgresql://pgdb:${PGDB_PORT}/gitbucket_db
+      - GITBUCKET_DB_USER=gitbucketapp
+      - GITBUCKET_DB_PASSWORD=diEngines10
+    container_name: ${PROJECT_NAME}_gitbucket
+    build:
+      context: ./src-gitbucket
+      args:
+        url_docker: ${url_docker_index}
+    volumes:
+      - data_gitbucket:/gitbucket
+    networks:
+      - appnet
+
+networks:
+  appnet:
+
+
+volumes:
+  datashare:
+  data_gitbucket:
+  dbdata_pgdb:
+  applogs:
+  appcache_nginx:
