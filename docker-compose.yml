@@ -51,17 +51,20 @@ services:
   gitbucket:
     restart: unless-stopped
     environment:
-      - GITBUCKET_PREFIX=gitbucket/
-      - GITBUCKET_DB_URL=jdbc:postgresql://pgdb:${PGDB_PORT}/gitbucket_db
-      - GITBUCKET_DB_USER=gitbucketapp
-      - GITBUCKET_DB_PASSWORD=diEngines10
+      - GITBUCKET_DB_URL=jdbc:postgresql://pgdb:${PGDB_PORT}/gitbucket
+      - GITBUCKET_DB_DRIVER=org.postgresql.Driver
+      - GITBUCKET_PORT=${GITBUCKET_PORT}
     container_name: ${PROJECT_NAME}_gitbucket
     build:
       context: ./src-gitbucket
       args:
         url_docker: ${url_docker_index}
+    env_file:
+      - ./src-gitbucket/.env.docker
     volumes:
       - data_gitbucket:/gitbucket
+    ports:
+      - "${GITBUCKET_PORT}:${GITBUCKET_PORT}"
     networks:
       - appnet
 

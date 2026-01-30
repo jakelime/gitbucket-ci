@@ -2,11 +2,6 @@ FROM eclipse-temurin:17.0.17_10-jre-noble
 
 ADD https://github.com/gitbucket/gitbucket/releases/download/4.45.0/gitbucket.war /opt/gitbucket.war
 
-RUN ln -s /appdata_gitbucket /root/.gitbucket
-
-# VOLUME /gitbucket
-
-# Port for web page and Port for SSH access to git repository (Optional)
-# EXPOSE 8080 29418
+RUN ln -s /gitbucket /root/.gitbucket
 
 CMD ["sh", "-c", "java -jar /opt/gitbucket.war"]
