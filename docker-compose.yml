@@ -69,6 +69,14 @@ services:
     networks:
       - appnet
 
+  drawio:
+    image: ${url_docker}/jgraph/drawio:29.3.6
+    container_name: drawio
+    restart: unless-stopped
+    ports:
+      - 15080:8080
+      - 25443:8443
+
 networks:
   appnet:
 
