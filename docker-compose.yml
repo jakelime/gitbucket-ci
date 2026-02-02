@@ -70,12 +70,17 @@ services:
       - appnet
 
   drawio:
-    image: ${url_docker}/jgraph/drawio:29.3.6
-    container_name: drawio
+    image: ${url_docker_index}/jgraph/drawio:29.3.6
+    container_name: ${PROJECT_NAME}_drawio
     restart: unless-stopped
+    # environment:
+    #   - DRAWIO_BASE_URL=https://${DEPLOY_HOSTNAME_DOMAIN_URL}/drawio/
+    #   - DRAWIO_SERVER_URL=https://${DEPLOY_HOSTNAME_DOMAIN_URL}/drawio/
     ports:
       - 15080:8080
       - 25443:8443
+    networks:
+      - appnet
 
 networks:
   appnet:
