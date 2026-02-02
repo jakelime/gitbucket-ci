@@ -1,6 +1,8 @@
 [submodule "src-nginx"]
 	path = src-nginx
-	url = git@github.com:jakelime/docker-nginx.git
+	# url = git@github.com:jakelime/docker-nginx.git
+	url = https://github.com/jakelime/docker-nginx.git
 [submodule "src-pgdb"]
 	path = src-pgdb
-	url = git@github.com:jakelime/docker-postgresdb.git
+	# url = git@github.com:jakelime/docker-postgresdb.git
+	url = https://github.com/jakelime/docker-postgresdb.git
