@@ -18,6 +18,7 @@ services:
       - NGINX_PORT_HTTP=${NGINX_PORT_HTTP}
       - NGINX_PORT_HTTPS=${NGINX_PORT_HTTPS}
       - GITBUCKET_PORT=${GITBUCKET_PORT}
+      - GITBUCKET_PREFIX=${GITBUCKET_PREFIX}
     ports:
       - "${NGINX_PORT_HTTP}:${NGINX_PORT_HTTP}"
       - "${NGINX_PORT_HTTPS}:${NGINX_PORT_HTTPS}"
@@ -54,6 +55,7 @@ services:
       - GITBUCKET_DB_URL=jdbc:postgresql://pgdb:${PGDB_PORT}/gitbucket
       - GITBUCKET_DB_DRIVER=org.postgresql.Driver
       - GITBUCKET_PORT=${GITBUCKET_PORT}
+      - GITBUCKET_PREFIX=${GITBUCKET_PREFIX}
     container_name: ${PROJECT_NAME}_gitbucket
     build:
       context: ./src-gitbucket
