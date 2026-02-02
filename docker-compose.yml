@@ -45,7 +45,8 @@ services:
       - "-p"
       - ${PGDB_PORT}
     volumes:
-      - dbdata_pgdb:/var/lib/postgresql/data
+      # - dbdata_pgdb:/var/lib/postgresql/data # postgresql 17
+      - dbdata_pgdb:/var/lib/postgresql/18/docker # postgresql 18
     networks:
       - appnet
 
@@ -65,8 +66,6 @@ services:
       - ./src-gitbucket/.env.docker
     volumes:
       - data_gitbucket:/gitbucket
-    ports:
-      - "${GITBUCKET_PORT}:${GITBUCKET_PORT}"
     networks:
       - appnet
 
