@@ -6,3 +6,6 @@
 	path = src-pgdb
 	# url = git@github.com:jakelime/docker-postgresdb.git
 	url = https://github.com/jakelime/docker-postgresdb.git
+[submodule "src-gitbucket"]
+	path = src-gitbucket
+	url = http://n1-a697e7d4-01.stengggrp.local/gitbucket/git/transformations/gitbucket-docker.git
